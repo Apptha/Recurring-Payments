@@ -1,0 +1,177 @@
+<?php
+
+/**
+ * Apptha
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.apptha.com/LICENSE.txt
+ *
+ * ==============================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * ==============================================================
+ * This package designed for Magento COMMUNITY edition
+ * Apptha does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * Apptha does not provide extension support in case of
+ * incorrect edition usage.
+ * ==============================================================
+ *
+ * @category    Apptha
+ * @package     Apptha_RecurringPayments
+ * @version     0.1.0
+ * @author      Apptha Team <developers@contus.in>
+ * @copyright   Copyright (c) 2014 Apptha. (http://www.apptha.com)
+ * @license     http://www.apptha.com/LICENSE.txt
+ *
+ */
+?>
+<?php
+
+$_helper = Mage::helper ( 'recurringpayments' );
+if (Mage::getStoreConfigFlag ( 'recurringpayments/settings/active' ) && $_helper->checkSubscriptionAndRecurringPaymentsKey ()) {
+	$productPrice = $amountFinal = $firstOptionAmount = 0;
+	$product = Mage::registry ( 'current_product' );
+	$productId = $product->getId ();
+	$currentProductPrice = $productPrice = $product->getPrice ();
+	$manageSubscriptions = Mage::getModel ( 'recurringpayments/managesubscriptions' )->getCollection ()->addFieldToFilter ( 'product_id', $productId )->addFieldToFilter ( 'is_subscription_only', 1 );
+	if (count ( $manageSubscriptions )) {
+		$productSubscription = Mage::getModel ( 'recurringpayments/productsubscriptions' )->getCollection ()->addFieldToFilter ( 'product_id', $productId )->addFieldToFilter ( 'is_subscription_only', 1 )->addFieldToFilter ( 'is_delete', 0 );
+		
+		$productSubscription->getSelect ()->join ( Mage::getConfig ()->getTablePrefix () . 'apptha_subscriptiontypes', 'main_table.subscription_type =' . Mage::getConfig ()->getTablePrefix () . 'apptha_subscriptiontypes.id AND ' . Mage::getConfig ()->getTablePrefix () . 'apptha_subscriptiontypes.status = 1', array (
+				'main_table.id as product_subscription_id',
+				'main_table.subscription_type as subscription_type',
+				Mage::getConfig ()->getTablePrefix () . 'apptha_subscriptiontypes.title' 
+		) );
+		if (count ( $productSubscription )) {
+			?>
+<dl class="last">
+
+	<dt>
+		<label class="required"><em>*</em><?php echo $this->__('Select period'); ?></label>
+	</dt>
+	<dd class="">
+		<div class="input-box">
+			<ul id="recurring-payments-options-list"
+				class="options-list recurring-payments-options-list">
+<?php
+			$lastOptionFlag = count ( $productSubscription ) - 1;
+			$firstOptionFlag = 0;
+			foreach ( $productSubscription as $subscription ) {
+				
+				$baseCurrencyCode = Mage::app ()->getStore ()->getBaseCurrencyCode ();
+				$currentCurrencyCode = Mage::app ()->getStore ()->getCurrentCurrencyCode ();
+				$amount = $price = $subscription->getPricePerIteration ();
+				if ($baseCurrencyCode != $currentCurrencyCode) {
+					/**
+					 * convert price from base currency to current currency
+					 */
+					$price = Mage::helper ( 'directory' )->currencyConvert ( $amount, $baseCurrencyCode, $currentCurrencyCode );
+					
+					$currentProductPrice = Mage::helper ( 'directory' )->currencyConvert ( $productPrice, $baseCurrencyCode, $currentCurrencyCode );
+				}
+				$amountFinal = round ( $price, 2 ) - round ( $currentProductPrice, 2 );
+				
+				if ($firstOptionFlag == 0) {
+					$firstOptionAmount = $amountFinal;
+				}
+				
+				?>
+<li><input type="radio"
+					<?php if($firstOptionFlag == 0){ echo 'checked="checked"'; } ?>
+					id="recurring_options_<?php echo $subscription->getSubscriptionType(); ?>"
+					class="radio  <?php  if($firstOptionFlag == $lastOptionFlag){ echo 'validate-one-required-by-name'; } ?> product-custom-option"
+					onclick="updatePriceForRecurring(<?php echo round($amountFinal,2); ?>,<?php echo round($currentProductPrice,2); ?>)"
+					name="recurringoptions[]"
+					value="<?php echo $subscription->getProductSubscriptionId(); ?>"> <span
+					class="label"><label
+						for="recurring_options_<?php echo $subscription->getSubscriptionType(); ?>"><?php echo $subscription->getTitle(); ?></label></span>
+				</li>
+<?php
+				$firstOptionFlag = $firstOptionFlag + 1;
+				
+			}
+			?>
+</ul>
+		</div>
+	</dd>
+	<dt>
+		<label>
+<?php
+			$manageSubscriptionsDetails = $manageSubscriptions->getFirstItem ();
+			$startDate = $manageSubscriptionsDetails->getStartDate ();
+			if (! ($startDate)) {
+                echo $this->__ ( 'Recurring Profile Start Date :' ) . ' ';
+				echo date ( 'd/m/y' );
+				echo "<br>";
+				$date = $this->getStartDatetime();
+				//echo $this->getStartDatetime();
+				?>
+<input type="hidden" name="recurring_profile_start_datetime"
+			id="apptha_recurring_start_date"
+			value="<?php echo $date;//echo date('d/m/y h:i'); ?>"
+			class="datetime-picker input-text">
+<?php
+			} else {
+				?>
+<dl class="last">
+				<dt>
+					<label for="apptha_recurring_start_date"><?php echo $this->__('Recurring Profile Start Date :'); ?></label>
+				</dt>
+				<dd>
+					<input type="text" name="recurring_profile_start_datetime"
+						id="apptha_recurring_start_date" value=""
+						class="datetime-picker input-text">
+				    <img style="display: inline" src="<?php echo $this->getSkinUrl('images/calendar.gif'); ?>"
+						alt="" id="apptha_recurring_start_date_trig"
+						title="<?php echo $this->__('Date selector'); ?>">
+				</dd>
+			</dl> <script type="text/javascript">
+//<![CDATA[
+var calendarSetupObject = {
+    inputField  : "apptha_recurring_start_date",
+    ifFormat    : "%m/%e/%Y %I:%M %p",
+    showsTime   : "true",
+    button      : "apptha_recurring_start_date_trig",
+    align       : "Bl",
+    singleClick : true
+}
+Calendar.setup(calendarSetupObject);
+//]]>
+</script>
+<?php
+			}
+			?>
+<script type="text/javascript">
+//<![CDATA[
+function updatePriceForRecurring(newPrice,oldPrice){
+    optionsPrice.changePrice('config', {'price': newPrice, 'oldPrice': <?php echo $amountFinal-$amountFinal; ?>});
+    optionsPrice.reload();	
+}
+<?php if(count($productSubscription) > 0){ ?>
+Event.observe(window, 'load', function() {
+optionsPrice.changePrice('config', {'price': <?php echo $firstOptionAmount; ?>, 'oldPrice': <?php echo $amountFinal-$amountFinal; ?>});
+optionsPrice.reload();	
+});
+<?php } ?>
+//]]>
+</script>
+		</label>
+	</dt>
+</dl>
+<?php
+		}
+	}
+} else {
+	?>
+
+
+<?php 
+
+ }                      
+?>
+
+

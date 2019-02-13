@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /** * Apptha * * NOTICE OF LICENSE * * This source file is subject to 
+	the EULA * that is bundled with this package in the file LICENSE.txt. * It 
+	is also available through the world-wide-web at this URL: * http://www.apptha.com/LICENSE.txt 
+	* * ============================================================== * MAGENTO 
+	EDITION USAGE NOTICE * ============================================================== 
+	* This package designed for Magento COMMUNITY edition * Apptha does not guarantee 
+	correct work of this extension * on any other Magento edition except Magento 
+	COMMUNITY edition. * Apptha does not provide extension support in case of 
+	* incorrect edition usage. * ============================================================== 
+	* * @category Apptha * @package Apptha_Recurringpayments * @version 0.1.0 
+	* @author Apptha Team <developers@contus.in> * @copyright Copyright (c) 2014 
+	Apptha. (http://www.apptha.com) * @license http://www.apptha.com/LICENSE.txt 
+	* */ -->
+<config>
+
+	<modules>
+		<Apptha_Recurringpayments>
+			<version>0.1.0</version>
+		</Apptha_Recurringpayments>
+	</modules>
+
+
+	<frontend>
+		<routers>
+			<recurringpayments>
+				<use>standard</use>
+				<args>
+					<module>Apptha_Recurringpayments</module>
+					<frontName>recurringpayments</frontName>
+				</args>
+			</recurringpayments>
+			<!-- <paypal> 
+       			<args>
+         		 <modules>
+        		<Apptha_Recurringpayments before="Mage_Paypal">Apptha_Recurringpayments</Apptha_Recurringpayments>    
+       			</modules>    
+       			</args>
+    		</paypal> -->
+    		<!-- <sales>
+    			<args>
+    				<module>
+    					<Apptha_Recurringpayments before="Mage_Sales">Apptha_Recurringpayments</Apptha_Recurringpayments>
+    				</module>
+    			</args>
+    		</sales> -->
+		</routers>
+		<layout>
+			<updates>
+				<recurringpayments>
+					<file>recurringpayments.xml</file>
+				</recurringpayments>
+			</updates>
+		</layout>
+	</frontend>
+	<admin>
+		<routers>
+			<recurringpayments>
+				<use>admin</use>
+				<args>
+					<module>Apptha_Recurringpayments</module>
+					<frontName>adminrecurringpayments</frontName>
+				</args>
+			</recurringpayments>
+		</routers>
+	</admin>
+	<adminhtml>
+		<menu>
+			<recurringpayments translate="title" module="recurringpayments">
+				<title>Subscription</title>
+				<sort_order>100</sort_order>
+				<children>
+					<subscriptiontype translate="title" module="recurringpayments">
+						<title>Subscription Type</title>
+						<sort_order>0</sort_order>
+						<action>recurringpayments/adminhtml_subscriptiontype</action>
+					</subscriptiontype>
+					<managesubscriptions translate="title" module="recurringpayments">
+						<title>Manage Subscriptions </title>
+						<sort_order>1</sort_order>
+						<action>recurringpayments/adminhtml_managesubscriptions</action>
+					</managesubscriptions>
+					<recurring translate="title" module="recurringpayments">
+						<title>Recurring Profiles</title>
+						<sort_order>2</sort_order>
+						<children>
+							<active translate="title" module="recurringpayments">
+								<title>Active</title>
+								<sort_order>0</sort_order>
+								<action>recurringpayments/adminhtml_recurringprofiles/active</action>
+							</active>
+							<suspended translate="title" module="recurringpayments">
+								<title>Suspended</title>
+								<sort_order>1</sort_order>
+								<action>recurringpayments/adminhtml_recurringprofiles/suspended</action>
+							</suspended>
+							<pending translate="title" module="recurringpayments">
+								<title>Pending</title>
+								<sort_order>2</sort_order>
+								<action>recurringpayments/adminhtml_recurringprofiles/pending</action>
+							</pending>
+							<canceled translate="title" module="recurringpayments">
+								<title>Canceled</title>
+								<sort_order>3</sort_order>
+								<action>recurringpayments/adminhtml_recurringprofiles/canceled</action>
+							</canceled>
+							<all translate="title" module="recurringpayments">
+								<title>All</title>
+								<sort_order>4</sort_order>
+								<action>recurringpayments/adminhtml_recurringprofiles/index</action>
+							</all>
+						</children>
+					</recurring>
+				</children>
+			</recurringpayments>
+		</menu>
+		<layout>
+			<updates>
+				<recurringpayments>
+					<file>recurringpayments.xml</file>
+				</recurringpayments>
+			</updates>
+		</layout>
+	</adminhtml>
+	<global>
+		<blocks>
+			<recurringpayments>
+				<class>Apptha_Recurringpayments_Block</class>
+			</recurringpayments>
+			<subscriptiontype>
+				<class>Apptha_Recurringpayments_Block</class>
+			</subscriptiontype>
+			<managesubscriptions>
+				<class>Apptha_Recurringpayments_Block</class>
+			</managesubscriptions>
+			<recurringprofiles>
+				<class>Apptha_Recurringpayments_Block</class>
+			</recurringprofiles>
+			
+		 <checkout>
+				<rewrite>
+				<total_nominal>Apptha_Recurringpayments_Block_Checkout_Total_Nominal</total_nominal>
+				</rewrite>
+			</checkout>		
+		</blocks>
+		<helpers>
+			<recurringpayments>
+				<class>Apptha_Recurringpayments_Helper</class>
+			</recurringpayments>
+			<subscriptiontype>
+				<class>Apptha_Recurringpayments_Helper</class>
+			</subscriptiontype>
+			<managesubscriptions>
+				<class>Apptha_Recurringpayments_Helper</class>
+			</managesubscriptions>
+			<recurringprofiles>
+				<class>Apptha_Recurringpayments_Helper</class>
+			</recurringprofiles>
+			<productsubscriptions>
+				<class>Apptha_Recurringpayments_Helper</class>
+			</productsubscriptions>
+		</helpers>
+		<models>
+			<recurringpayments>
+				<class>Apptha_Recurringpayments_Model</class>
+				<resourceModel>recurringpayments_resource</resourceModel>
+			</recurringpayments>
+			<subscriptiontype>
+				<class>Apptha_Recurringpayments_Model</class>
+			</subscriptiontype>
+			<recurringprofiles>
+				<class>Apptha_Recurringpayments_Model</class>
+			</recurringprofiles>
+			<managesubscriptions>
+				<class>Apptha_Recurringpayments_Model</class>
+			</managesubscriptions>
+			<productsubscriptions>
+				<class>Apptha_Recurringpayments_Model</class>
+			</productsubscriptions>
+			<recurringpayments_resource>
+				<class>Apptha_Recurringpayments_Model_Resource</class>
+				<entities>
+					<subscriptiontype>
+						<table>apptha_subscriptiontypes</table>
+					</subscriptiontype>
+					<recurringprofiles>
+						<table>apptha_recurringprofiles</table>
+					</recurringprofiles>
+					<managesubscriptions>
+						<table>apptha_managesubscriptions</table>
+					</managesubscriptions>
+					<productsubscriptions>
+						<table>apptha_productsubscriptions</table>
+					</productsubscriptions>
+				</entities>
+			</recurringpayments_resource>	
+
+		</models>
+		<resources>
+			<recurringpayments_setup>
+				<setup>
+					<module>Apptha_Recurringpayments</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</recurringpayments_setup>
+			<recurringpayments_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</recurringpayments_write>
+			<recurringpayments_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</recurringpayments_read>
+		</resources>
+		<events>
+			<controller_action_predispatch>
+				<observers>
+					<recurringpayments>
+						<type>singleton</type>
+						<class>recurringpayments/observer</class>
+						<method>addToCartEvent</method>
+					</recurringpayments>
+				</observers>
+			</controller_action_predispatch>
+			<sales_quote_add_item>
+				<observers>
+					<updatecartprice>
+						<type>singleton</type>
+						<class>recurringpayments/observer</class>
+						<method>updateCartPrice</method>
+					</updatecartprice>
+				</observers>
+			</sales_quote_add_item>
+   			 <catalog_controller_product_view >
+   			 	<observers>
+		            <checkRecurring>
+		                <class>recurringpayments/observer</class>
+		                <method>checkRecurring</method>
+		           </checkRecurring>
+		        </observers>
+   			 </catalog_controller_product_view >
+			<checkout_cart_save_after>
+				<observers>
+					<marketplace>
+						<type>singleton</type>
+						<class>recurringpayments/observer</class>
+						<method>addToCartEventAfter</method>
+					</marketplace>
+				</observers>
+			</checkout_cart_save_after>
+			<paypal_ipn_index>
+      			<observers>
+         			<ipnnotifications>
+             			 <type>singleton</type>
+              			<class>recurringpayments/observer</class>
+              			<method>ipnStart</method>
+           			</ipnnotifications>
+      		 </observers>        
+		</paypal_ipn_index>  
+		<!-- <checkout_onepage_controller_success_action>
+                <observers>
+                    <marketplace>
+                        <type>singleton</type>
+                        <class>recurringpayments/observer</class>
+                        <method>successAfter</method>
+                    </marketplace>
+                </observers>
+        </checkout_onepage_controller_success_action> -->
+		</events>
+	</global>	
+    <crontab>
+	    <jobs>
+	        <recurringpayments_observer>
+	            <schedule><cron_expr>*/1 * * * *</cron_expr></schedule>
+	            <run><model>recurringpayments/observer::eventVacationMode</model></run>
+	        </recurringpayments_observer>
+	    </jobs>
+	</crontab> 
+	<!-- <crontab>
+	    <jobs>
+	        <recurringpayments_observer>
+	            <schedule><cron_expr>*/1 * * * *</cron_expr></schedule>
+	            <run><model>recurringpayments/observer::eventCanceled</model></run>
+	        </recurringpayments_observer>
+	    </jobs>
+	</crontab>  --> 
+</config>	

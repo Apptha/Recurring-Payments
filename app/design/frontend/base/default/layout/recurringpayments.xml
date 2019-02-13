@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!-- /** * Apptha * * NOTICE OF LICENSE * * This source file is subject to 
+	the EULA * that is bundled with this package in the file LICENSE.txt. * It 
+	is also available through the world-wide-web at this URL: * http://www.apptha.com/LICENSE.txt 
+	* * ============================================================== * MAGENTO 
+	EDITION USAGE NOTICE * ============================================================== 
+	* This package designed for Magento COMMUNITY edition * Apptha does not guarantee 
+	correct work of this extension * on any other Magento edition except Magento 
+	COMMUNITY edition. * Apptha does not provide extension support in case of 
+	* incorrect edition usage. * ============================================================== 
+	* * @category Apptha * @package Apptha_Recurringpayments * @version 0.1.0 
+	* @author Apptha Team <developers@contus.in> * @copyright Copyright (c) 2014 
+	Apptha. (http://www.apptha.com) * @license http://www.apptha.com/LICENSE.txt 
+	* */ -->
+<layout version="0.1.0">
+	<catalog_product_view>
+		<reference name="head">
+			<action method="addItem">
+				<type>js_css</type>
+				<name>calendar/calendar-win2k-1.css</name>
+				<params /><!--<if/><condition>can_load_calendar_js</condition> -->
+			</action>
+			<action method="addItem">
+				<type>js</type>
+				<name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition> -->
+			</action>
+			<action method="addItem">
+				<type>js</type>
+				<name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition> -->
+			</action>
+		</reference>
+		<reference name="product.info.options.wrapper">
+			<remove name="product.info.additional.recurring.schedule" />
+			<remove name="product.info.options.recurring" />
+			<block type="recurringpayments/recurringpayments" name="apptha.recurringpayments"
+				as="apptha.recurringpayments" template="recurringpayments/options.phtml"
+				before="-" />
+		</reference>
+	</catalog_product_view>
+</layout>

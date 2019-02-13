@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<recurringpayments>
+										<title>Recurringpayments Module</title>
+										<sort_order>10</sort_order>
+									</recurringpayments>
+								</children>
+							</config>
+						</children>
+					</system>
+					<menu>
+						<recurringpayments module="recurringpayments">
+							<title>Subscription</title>
+							<sort_order>100</sort_order>
+							<children>
+								<subscriptiontype module="recurringpayments">
+									<title>Subscription Type</title>
+
+								</subscriptiontype>
+								<managesubscriptions module="recurringpayments">
+									<title>Manage Subscriptions </title>
+								</managesubscriptions>
+								<recurring module="recurringpayments">
+									<title>Recurring Profiles</title>
+									<sort_order>2</sort_order>
+									<children>
+										<active module="recurringpayments">
+											<title>Active</title>
+
+										</active>
+										<suspended module="recurringpayments">
+											<title>Suspended</title>
+
+										</suspended>
+										<pending module="recurringpayments">
+											<title>Pending</title>
+
+										</pending>
+										<cancelled module="recurringpayments">
+											<title>Cancelled</title>
+
+										</cancelled>
+										
+										<all module="recurringpayments">
+											<title>All</title>
+
+
+										</all>
+									</children>
+								</recurring>
+							</children>
+						</recurringpayments>
+					</menu>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

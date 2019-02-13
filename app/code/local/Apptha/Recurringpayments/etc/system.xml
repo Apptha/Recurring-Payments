@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<tabs>
+		<apptha translate="label" module="recurringpayments">
+			<label>Apptha</label>
+			<sort_order>300</sort_order>
+		</apptha>
+	</tabs>
+	<sections>
+		<recurringpayments translate="label" module="recurringpayments">
+			<label>Recurringpayments</label>
+			<tab>apptha</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>1</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<settings translate="label">
+					<label>Recurring Payments Module</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>2</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<apply_apptha_licensekey translate="label">
+							<label>Enter License Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<validate>required-entry</validate>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</apply_apptha_licensekey>
+						<active translate="label comment">
+							<label>Enabled </label>
+							<frontend_type>select</frontend_type>
+							<sort_order>54</sort_order>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</active>
+					</fields>
+
+				</settings>
+			</groups>
+		</recurringpayments>
+	</sections>
+</config>

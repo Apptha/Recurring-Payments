@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- /** * Apptha * * NOTICE OF LICENSE * * This source file is subject to 
+	the EULA * that is bundled with this package in the file LICENSE.txt. * It 
+	is also available through the world-wide-web at this URL: * http://www.apptha.com/LICENSE.txt 
+	* * ============================================================== * MAGENTO 
+	EDITION USAGE NOTICE * ============================================================== 
+	* This package designed for Magento COMMUNITY edition * Apptha does not guarantee 
+	correct work of this extension * on any other Magento edition except Magento 
+	COMMUNITY edition. * Apptha does not provide extension support in case of 
+	* incorrect edition usage. * ============================================================== 
+	* * @category Apptha * @package Apptha_Recurringpayments * @version 0.1.0 
+	* @author Apptha Team <developers@contus.in> * @copyright Copyright (c) 2014 
+	Apptha. (http://www.apptha.com) * @license http://www.apptha.com/LICENSE.txt 
+	* */ -->
+<layout version="0.1.0">
+	<default>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<stylesheet>css/apptha/recurringpayments/style.css</stylesheet>
+			</action>
+		</reference>
+	</default>
+	<recurringpayments_adminhtml_managesubscriptions_index>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_managesubscriptions"
+				name="managesubscriptions" />
+		</reference>
+	</recurringpayments_adminhtml_managesubscriptions_index>
+	<recurringpayments_adminhtml_recurringpayments_index>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringpayments"
+				name="recurringpayments" />
+		</reference>
+	</recurringpayments_adminhtml_recurringpayments_index>
+
+	<recurringpayments_adminhtml_subscriptiontype_index>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_subscriptiontype"
+				name="subscriptiontype" />
+		</reference>
+	</recurringpayments_adminhtml_subscriptiontype_index>
+	<recurringpayments_adminhtml_recurringprofiles_index>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringprofiles"
+				name="recurringprofiles" />
+		</reference>
+	</recurringpayments_adminhtml_recurringprofiles_index>
+	<recurringpayments_adminhtml_recurringprofiles_active>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringprofiles"
+				name="active" />
+		</reference>
+	</recurringpayments_adminhtml_recurringprofiles_active>
+	<recurringpayments_adminhtml_recurringprofiles_suspended>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringprofiles"
+				name="suspended" />
+		</reference>
+	</recurringpayments_adminhtml_recurringprofiles_suspended>
+	<recurringpayments_adminhtml_recurringprofiles_canceled>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringprofiles"
+				name="canceled" />
+		</reference>
+	</recurringpayments_adminhtml_recurringprofiles_canceled>
+	<recurringpayments_adminhtml_recurringprofiles_pending>
+		<reference name="content">
+			<block type="recurringpayments/adminhtml_recurringprofiles"
+				name="pending" />
+		</reference>
+	</recurringpayments_adminhtml_recurringprofiles_pending>
+</layout>
